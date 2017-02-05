@@ -514,19 +514,34 @@
      */
 
     base.render = function () {
-      var frameEasing;
-      if (AppConfig.currentFrame !== AppConfig.endFrame) {
-        frameEasing = AppConfig.endFrame < AppConfig.currentFrame ? Math.floor((AppConfig.endFrame - AppConfig.currentFrame) * 0.1) : Math.ceil((AppConfig.endFrame - AppConfig.currentFrame) * 0.1);
-        base.hidePreviousFrame();
-        AppConfig.currentFrame += frameEasing;
-        base.showCurrentFrame();
-        base.$el.trigger('frameIndexChanged', [base.getNormalizedCurrentFrame(), AppConfig.totalFrames]);
-      } else {
-        window.clearInterval(AppConfig.ticker);
-        AppConfig.ticker = 0;
-      }
-    };
+            var frameEasing;
+            var from_frame;
+            var to_frame;
+            var aux_current_frame;
+            if (AppConfig.currentFrame !== AppConfig.endFrame) {
+                aux_current_frame = AppConfig.currentFrame;
+                frameEasing = AppConfig.endFrame < AppConfig.currentFrame ? Math.floor((AppConfig.endFrame - AppConfig.currentFrame) * 0.1) : Math.ceil((AppConfig.endFrame - AppConfig.currentFrame) * 0.1);
+                from_frame = base.getNormalizedCurrentFrame();
+                AppConfig.currentFrame += frameEasing;
+                to_frame = base.getNormalizedCurrentFrame();
+                AppConfig.currentFrame = aux_current_frame;
 
+                // 180 intead 360 degrees rotation. Once arrived to last image, it cannot go forward. Same with first image.
+                if ((from_frame > to_frame && (from_frame - to_frame) > 1) || (to_frame > from_frame && (to_frame - from_frame) > 1)) {
+                    return false;
+                }
+
+                console.log(base.getNormalizedCurrentFrame());
+                base.hidePreviousFrame();
+                AppConfig.currentFrame += frameEasing;
+                console.log(base.getNormalizedCurrentFrame());
+                base.showCurrentFrame();
+                base.$el.trigger('frameIndexChanged', [base.getNormalizedCurrentFrame(), AppConfig.totalFrames]);
+            } else {
+                window.clearInterval(AppConfig.ticker);
+                AppConfig.ticker = 0;
+            }
+        };
     /**
      * @method hidePreviousFrame
      * @private
