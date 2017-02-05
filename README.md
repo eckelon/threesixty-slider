@@ -1,4 +1,6 @@
-# Hello All, I am not maintaining this plugin anymore. 
+This fork changes the rotation from 360 to 180. Just a minor change, but I needed this for a project. In the future, I'd like to add this as an option.
+
+# Hello All, I am not maintaining this plugin anymore.
 
 ![Three Sixty Image slider plugin](https://raw.github.com/creativeaura/threesixty-slider/master/assets/360.png)
 
