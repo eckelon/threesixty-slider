@@ -531,10 +531,8 @@
                     return false;
                 }
 
-                console.log(base.getNormalizedCurrentFrame());
                 base.hidePreviousFrame();
                 AppConfig.currentFrame += frameEasing;
-                console.log(base.getNormalizedCurrentFrame());
                 base.showCurrentFrame();
                 base.$el.trigger('frameIndexChanged', [base.getNormalizedCurrentFrame(), AppConfig.totalFrames]);
             } else {
